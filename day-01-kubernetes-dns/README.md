@@ -192,7 +192,9 @@ Successful authoritative DNS response before introducing the failure.
 
 The PowerDNS Pod remained running, but the Service lost its endpoints and DNS queries failed.
 
-![Kubernetes Service failure](service_failure.png)
+
+![Kubernetes Service failure](service%20failure.png)
+
 
 ### 3. Service Recovery
 
