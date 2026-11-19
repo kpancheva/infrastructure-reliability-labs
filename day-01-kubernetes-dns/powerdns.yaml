@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: powerdns-config
+  namespace: dns-lab
+data:
+  pdns.conf: |
+    launch=bind
+    bind-config=/etc/powerdns/named.conf
+    local-address=0.0.0.0
+    local-port=53
+    daemon=no
+    guardian=no
+    disable-syslog=yes
+    loglevel=5
+  named.conf: |
+    zone "demo.test" {
+      type master;
+      file "/etc/powerdns/demo.test.zone";
+    };
+  demo.test.zone: |
+    $ORIGIN demo.test.
+    $TTL 300
+    @ IN SOA ns1.demo.test. admin.demo.test. (
+      2026111801
+      3600
+      600
+      604800
+      300
+    )
+    @   IN NS ns1.demo.test.
+    ns1 IN A 192.0.2.53
+    www IN A 192.0.2.10
+    api IN A 192.0.2.20
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: powerdns
+  namespace: dns-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: powerdns
+  template:
+    metadata:
+      labels:
+        app: powerdns
+    spec:
+      containers:
+        - name: powerdns
+          image: powerdns/pdns-auth-49:4.9.4
+          ports:
+            - containerPort: 53
+              protocol: UDP
+            - containerPort: 53
+              protocol: TCP
+          volumeMounts:
+            - name: dns-config
+              mountPath: /etc/powerdns/pdns.conf
+              subPath: pdns.conf
+            - name: dns-config
+              mountPath: /etc/powerdns/named.conf
+              subPath: named.conf
+            - name: dns-config
+              mountPath: /etc/powerdns/demo.test.zone
+              subPath: demo.test.zone
+      volumes:
+        - name: dns-config
+          configMap:
+            name: powerdns-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: powerdns
+  namespace: dns-lab
+spec:
+  type: ClusterIP
+  selector:
+    app: powerdns
+  ports:
+    - name: dns-udp
+      port: 53
+      targetPort: 53
+      protocol: UDP
+    - name: dns-tcp
+      port: 53
+      targetPort: 53
+      protocol: TCP
