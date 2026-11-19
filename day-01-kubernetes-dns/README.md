@@ -179,6 +179,28 @@ DNS resolution was successfully restored.
 
 This exercise was performed in an isolated lab environment.
 
+
+## Lab Evidence
+
+### 1. Healthy DNS Resolution
+
+Successful authoritative DNS response before introducing the failure.
+
+![Successful DNS resolution](01-dns-working.png)
+
+### 2. Simulated Service Failure
+
+The PowerDNS Pod remained running, but the Service lost its endpoints and DNS queries failed.
+
+![Kubernetes Service failure](service_failure.png)
+
+### 3. Service Recovery
+
+After correcting the Service selector, DNS resolution was restored.
+
+![DNS resolution recovered](dns_recovered.png)
+
+
 A production deployment would require additional considerations such as high availability, persistent DNS data storage, monitoring, alerting, access controls, and controlled configuration changes.
 
 ## Outcome
