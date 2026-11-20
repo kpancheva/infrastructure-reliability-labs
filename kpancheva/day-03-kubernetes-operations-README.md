@@ -1,5 +1,5 @@
 
-# Day 03 — Kubernetes Operations & Troubleshooting
+# Day 03 - Kubernetes Operations & Troubleshooting
 
 ## 1. Objective
 
