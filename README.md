@@ -24,24 +24,6 @@ Each lab follows the same engineering workflow:
 | Day 04 | Advanced DNS & Network Diagnostics 
 | Day 05 | Infrastructure Incident Response 
 
-## Day 01 — Kubernetes DNS & PowerDNS
-
-**Objective:** Deploy an authoritative DNS server inside Kubernetes, configure DNS records, verify resolution over UDP and TCP, and investigate a simulated networking failure.
-
-**Technologies:** Kubernetes, PowerDNS, CoreDNS, Linux, YAML, `kubectl`, `dig`, `nslookup`.
-
-**What I accomplished:**
-- Inspected a two-node Kubernetes cluster and its DNS infrastructure.
-- Deployed PowerDNS using a ConfigMap, Deployment, and ClusterIP Service.
-- Configured the authoritative `demo.test` zone.
-- Verified DNS resolution over UDP and TCP.
-- Simulated a DNS outage by changing a Kubernetes Service selector.
-- Diagnosed missing Service endpoints and restored DNS resolution.
-
-**Key takeaway:** A running Pod does not guarantee that its Service is accessible. Effective troubleshooting requires understanding the relationship between Pods, labels, Services, and EndpointSlices.
-
-Detailed configuration, troubleshooting commands, and evidence will be documented in `day-01-kubernetes-dns/`.
-
 ## Tools & Environment
 
 - **Lab environment:** Killercoda browser-based playgrounds
